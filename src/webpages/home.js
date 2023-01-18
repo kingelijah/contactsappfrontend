@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import { URL_ADDRESS } from './urlconstant';
+
 
 function Home() {
   const [post, setPost] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("https://localhost:44337/api/contact").then((data) => {
+    axios.get(URL_ADDRESS).then((data) => {
       setPost(data?.data);
     }).catch((error) => {
       setError(error);
     });;
-  }, [handleRemove]);
+  },[handleRemove]);
 
   function handleRemove(id) {
     axios
-      .delete(`https://localhost:44337/api/Contact/${id}`)
+      .delete(`${URL_ADDRESS}/${id}`)
       .then((response) => {
-        console.log(response.data);
       }).catch((error) => {
         setError(error);
       });;

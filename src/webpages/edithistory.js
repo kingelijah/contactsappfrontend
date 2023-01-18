@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {useParams,Link} from 'react-router-dom'
+import { URL_ADDRESS } from './urlconstant';
+
 
 function Edithistory() {
     const { id } = useParams();
@@ -9,9 +11,8 @@ function Edithistory() {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:44337/api/Contact/GetEditHistory/${id}`)
+      .get(`${URL_ADDRESS}/GetEditHistory/${id}`)
       .then((response) => {
-        console.log(response.data)
         sethistory(response.data);
       })
       .catch((error) => {

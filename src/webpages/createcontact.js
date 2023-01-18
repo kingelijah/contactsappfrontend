@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import  { useNavigate } from 'react-router-dom'
+import { URL_ADDRESS } from './urlconstant';
+
 
 function Createcontact() {
 
@@ -14,9 +16,8 @@ function Createcontact() {
     e.preventDefault();
 
     axios
-      .post(`https://localhost:44337/api/contact`, { firstname,lastname,phonenumber,email })
+      .post(URL_ADDRESS, { firstname,lastname,phonenumber,email })
       .then((res) => {
-        console.log(res.data);
         navigate("/", { replace: true });
 
       });

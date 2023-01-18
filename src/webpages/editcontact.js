@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {useParams} from 'react-router-dom';
 import  { useNavigate } from 'react-router-dom'
+import { URL_ADDRESS } from './urlconstant';
+
 
 
 function Editcontact() {
@@ -28,7 +30,7 @@ function Editcontact() {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:44337/api/Contact/${id}`)
+      .get(`${URL_ADDRESS}/${id}`)
       .then((response) => {
         setState(response.data);
       })
@@ -40,9 +42,8 @@ function Editcontact() {
   const submitForm = (e) => {
     e.preventDefault();
     axios
-      .put(`https://localhost:44337/api/contact`,state)
+      .put(URL_ADDRESS,state)
       .then((res) => {
-        console.log(res.data);
         navigate("/", { replace: true });
       });
   };

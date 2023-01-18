@@ -1,15 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {useParams,Link} from 'react-router-dom'
+import { URL_ADDRESS } from './urlconstant';
 
 function Contact() {
     const { id } = useParams();
     const [contact, setContact] = useState(null);
     const [error, setError] = useState(null);
-
+    
   useEffect(() => {
     axios
-      .get(`https://localhost:44337/api/Contact/${id}`)
+      .get(`${URL_ADDRESS}/${id}`)
       .then((response) => {
         setContact(response.data);
       })
