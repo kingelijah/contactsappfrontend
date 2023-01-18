@@ -11,6 +11,7 @@ function Createcontact() {
     const [lastname, setlastname] = useState();
     const [phonenumber, setphonenumber] = useState();
     const [email, setemail] = useState();
+    const [error, setError] = useState(null);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -20,8 +21,12 @@ function Createcontact() {
       .then((res) => {
         navigate("/", { replace: true });
 
-      });
+      }).catch((error) => {
+        setError(error);
+      });;
   };
+
+  if (error) return `Error: ${error?.response.data}`;
 
   return (
     <div>
