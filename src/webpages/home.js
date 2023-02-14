@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from 'react-router-dom';
-import { URL_ADDRESS } from './urlconstant';
+import { getRequest } from './axiosclient';
+import { deleteRequest } from './axiosclient';
 
 
 function Home() {
@@ -9,21 +9,25 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(URL_ADDRESS).then((data) => {
-      setPost(data?.data);
-    }).catch((error) => {
-      setError(error);
-    });;
-  },[handleRemove]);
+   fetchUsers();
+  },[deleteUsers]);
 
-  function handleRemove(id) {
-    axios
-      .delete(`${URL_ADDRESS}/${id}`)
-      .then((response) => {
-      }).catch((error) => {
+  
+  async function fetchUsers() {
+    try {
+      const data = await getRequest("");
+      setPost(data?.data);
+    } catch(error) {
+      setError(error);
+      }
+    }
+    async function deleteUsers(id) {
+      try {
+        await deleteRequest(id);
+      } catch(error) {
         setError(error);
-      });;
-  };
+        }
+      }
 
   if (error) return `Error: ${error?.message}`;
   if (!post) return "No Contacts found!";
@@ -38,7 +42,7 @@ function Home() {
                     <Link to={`contact/${contact.id}`}>Details/</Link>
                     <Link to={`editcontact/${contact.id}`}>Edit/ </Link>
                     <Link to={`edithistory/${contact.id}`}>History/ </Link>
-                    <button onClick={() => handleRemove(contact.id)} type="submit">Delete</button>
+                    <button onClick={() => deleteUsers(contact.id)} type="submit">Delete</button>
                 </li>
                 ))}
             </ul>

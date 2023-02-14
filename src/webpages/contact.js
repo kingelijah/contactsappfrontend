@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {useParams,Link} from 'react-router-dom'
-import { URL_ADDRESS } from './urlconstant';
+import { getRequest } from './axiosclient';
 
 function Contact() {
     const { id } = useParams();
@@ -9,15 +8,18 @@ function Contact() {
     const [error, setError] = useState(null);
     
   useEffect(() => {
-    axios
-      .get(`${URL_ADDRESS}/${id}`)
-      .then((response) => {
-        setContact(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+
+      fetchUser();     
   }, []);
+
+  async function fetchUser() {
+    try {
+      const user = await getRequest(id);
+      setContact(user.data);
+    } catch(error) {
+      setError(error);
+      }
+    }
 
   if (error) return `Error: ${error?.message}`;
   if (!contact) return "No contact found!";

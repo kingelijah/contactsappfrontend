@@ -3,7 +3,7 @@ import axios from "axios";
 import {useParams} from 'react-router-dom';
 import  { useNavigate } from 'react-router-dom'
 import { URL_ADDRESS } from './urlconstant';
-
+import { getRequest } from './axiosclient';
 
 
 function Editcontact() {
@@ -29,14 +29,7 @@ function Editcontact() {
   };
 
   useEffect(() => {
-    axios
-      .get(`${URL_ADDRESS}/${id}`)
-      .then((response) => {
-        setState(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    fetchUser();
   }, []);
 
   const submitForm = (e) => {
@@ -47,6 +40,16 @@ function Editcontact() {
         navigate("/", { replace: true });
       });
   };
+
+  async function fetchUser() {
+    try {
+      const user = await getRequest(id);
+      setState(user.data);
+    } catch(error) {
+      setError(error);
+      }
+    }
+   
   if (error) return `Error: ${error?.message}`;
   if (!state) return "No contact found!";
 

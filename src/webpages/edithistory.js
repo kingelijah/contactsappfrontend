@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {useParams,Link} from 'react-router-dom'
-import { URL_ADDRESS } from './urlconstant';
+import { getRequest } from './axiosclient';
 
 
 function Edithistory() {
@@ -10,15 +9,17 @@ function Edithistory() {
     const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${URL_ADDRESS}/GetEditHistory/${id}`)
-      .then((response) => {
-        sethistory(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    fetchHistory();
   }, []);
+
+  async function fetchHistory() {
+    try {
+      const userhistory = await getRequest(`GetEditHistory/${id}`);
+      sethistory(userhistory.data);
+    } catch(error) {
+      setError(error);
+      }
+    }
 
   if (error) return `Error: ${error?.message}`;
   if (!history) return "No Edit History for contact!";

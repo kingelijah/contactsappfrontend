@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import  { useNavigate } from 'react-router-dom'
-import { URL_ADDRESS } from './urlconstant';
-
+import { postRequest } from './axiosclient';
 
 function Createcontact() {
 
@@ -15,16 +13,17 @@ function Createcontact() {
 
   const submitForm = (e) => {
     e.preventDefault();
-
-    axios
-      .post(URL_ADDRESS, { firstname,lastname,phonenumber,email })
-      .then((res) => {
-        navigate("/", { replace: true });
-
-      }).catch((error) => {
-        setError(error);
-      });;
+    createuser();
   };
+
+  async function createuser() {
+    try {
+     await postRequest("", { firstname,lastname,phonenumber,email });
+      navigate("/", { replace: true });
+    } catch(error) {
+      setError(error);
+      }
+    }
 
   if (error) return `Error: ${error?.response.data}`;
 
